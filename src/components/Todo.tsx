@@ -1,40 +1,74 @@
 "use client";
 import { ChangeEvent, FC, useState } from "react";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { todoType } from "@/types/todoType";
+import { deleteTodo, toggleTodo, editTodo } from '@/actions/todoActions';
 
 interface Props {
   todo: todoType;
-  changeTodoText: (id: number, text: string) => void;
-  toggleIsTodoDone: (id: number, done: boolean) => void;
-  deleteTodoItem: (id: number) => void;
 }
 
-const Todo: FC<Props> = ({
-  todo,
-  changeTodoText,
-  toggleIsTodoDone,
-  deleteTodoItem,
-}) => {
+const Todo: FC<Props> = ({ todo }) => {
   const [editing, setEditing] = useState(false);
   const [text, setText] = useState(todo.text);
   const [isDone, setIsDone] = useState(todo.done);
+
+  const queryClient = useQueryClient();
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+
+  const toggleMutation = useMutation({
+    mutationFn: toggleTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+
+  const editMutation = useMutation({
+    mutationFn: editTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
-  const handleIsDone = async () => {
-    toggleIsTodoDone(todo.id, !isDone);
+  const handleIsDone = () => {
+    console.log("Before toggle: ", isDone);
+    toggleMutation.mutate(
+      { id: todo.id, done: !isDone },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['todos'] });
+        },
+        onError: (error) => {
+          console.error("Toggle mutation error: ", error);
+        },
+      }
+    );
     setIsDone((prev) => !prev);
+    console.log("After toggle: ", !isDone); // Debug log
   };
+  
+  
+  
 
   const handleEdit = () => {
     setEditing(true);
   };
 
-  const handleSave = async () => {
-    changeTodoText(todo.id, text);
-    setEditing(false);
+  const handleSave = () => {
+    if (text.trim()) {
+      editMutation.mutate({ id: todo.id, text });
+      setEditing(false);
+    }
   };
 
   const handleCancel = () => {
@@ -43,9 +77,7 @@ const Todo: FC<Props> = ({
   };
 
   const handleDelete = () => {
-    if (confirm("Are you sure you want to delete this todo?")) {
-      deleteTodoItem(todo.id);
-    }
+    deleteMutation.mutate(todo.id);
   };
 
   return (
@@ -61,7 +93,7 @@ const Todo: FC<Props> = ({
         value={text}
         onChange={handleTextChange}
         readOnly={!editing}
-        className={`outline-none flex-1 px-4 py-2 rounded-l  border-white bg-black text-white ${
+        className={`outline-none flex-1 px-4 py-2 rounded-l border-white bg-black text-white ${
           todo.done ? "line-through" : ""
         }`}
       />

@@ -1,47 +1,28 @@
-"use server";
-import {revalidatePath} from "next/cache";
-import db from "../../db/drizzle";
-import { todo } from "../../db/schema";
-import { asc, eq } from "drizzle-orm";
+import axios from 'axios';
 
-  export const getData = async () => {
-    const data = await db.select().from(todo).orderBy(asc(todo.id));
-    console.log("Fetched data:", data);
-    return data;
-  };
-  
-  export const addTodo = async (text: string) => {
-    console.log("Adding todo:", text);
-    await db.insert(todo).values({
-      text: text,
-    });
-    revalidatePath("/");
-  };
+export const getTodos = async () => {
+  try {
+    console.log('Fetching todos from API');
+    const response = await axios.get('/api/todo/get');
+    console.log('Fetched todos response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching todos:', error);
+    throw error;
+  }
+};
+export const addTodo = async (text: string) => {
+  await axios.post('/api/todo/add', { text });
+};
 
 export const deleteTodo = async (id: number) => {
-  await db.delete(todo).where(eq(todo.id, id));
-
-  revalidatePath("/");
+  await axios.delete(`/api/todo/delete?id=${id}`);
 };
 
-export const toggleTodo = async (id: number, done: boolean) => {
-  await db
-    .update(todo)
-    .set({
-      done: done,
-    })
-    .where(eq(todo.id, id));
-
-  revalidatePath("/");
+export const toggleTodo = async ({ id, done }: { id: number; done: boolean }) => {
+  await axios.put(`/api/todo/Toogletodo?id=${id}`, { done });
 };
 
-export const editTodo = async (id: number, text: string) => {
-  await db
-    .update(todo)
-    .set({
-      text: text,
-    })
-    .where(eq(todo.id, id));
-
-  revalidatePath("/");
+export const editTodo = async ({ id, text }: { id: number; text: string }) => {
+  await axios.put(`/api/todo/edit?id=${id}`, { text });
 };

@@ -1,7 +1,14 @@
-import { getData } from "@/actions/todoActions";
+import { auth } from "@/auth";
+import { SignIn } from "@/components/signIn";
 import Todos from "@/components/Todos";
 
 export default async function Home() {
-  const data = await getData();
-  return <Todos todos={data} />;
+
+  const session = await auth();
+
+  if (!session?.user) {
+    return <SignIn />;
+  }
+
+  return <Todos  />; 
 }
