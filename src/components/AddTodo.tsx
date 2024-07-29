@@ -1,29 +1,10 @@
 "use client";
-import { ChangeEvent, FC, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addTodo } from "@/actions/todoActions";
+
+import AddTodoHooks from "@/hooks/Hook";
+import { FC } from "react";
 
 const AddTodo: FC = () => {
-  const [input, setInput] = useState("");
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: addTodo,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
-    },
-  });
-
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
-  };
-
-  const handleAdd = () => {
-    if (input.trim()) {
-      mutation.mutate(input);
-      setInput("");
-    }
-  };
+  const { input, handleInput, handleAdd} = AddTodoHooks();
 
   return (
     <div className="w-full flex gap-1 mt-2">

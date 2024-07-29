@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import { SignIn } from "@/components/signIn";
+import { SignIn } from "@/components/SignIn";
 import Todos from "@/components/Todos";
 
 export default async function Home() {

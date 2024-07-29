@@ -2,15 +2,13 @@ import axios from 'axios';
 
 export const getTodos = async () => {
   try {
-    console.log('Fetching todos from API');
     const response = await axios.get('/api/todo/get');
-    console.log('Fetched todos response:', response.data);
     return response.data;
   } catch (error) {
-    console.error('Error fetching todos:', error);
     throw error;
   }
 };
+
 export const addTodo = async (text: string) => {
   await axios.post('/api/todo/add', { text });
 };

@@ -54,11 +54,7 @@ const Todo: FC<Props> = ({ todo }) => {
       }
     );
     setIsDone((prev) => !prev);
-    console.log("After toggle: ", !isDone); // Debug log
   };
-  
-  
-  
 
   const handleEdit = () => {
     setEditing(true);

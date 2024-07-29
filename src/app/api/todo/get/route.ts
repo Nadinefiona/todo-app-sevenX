@@ -6,7 +6,7 @@ import { asc } from 'drizzle-orm';
 export async function GET(request: NextRequest) {
   try {
     const data = await db.select().from(todo).orderBy(asc(todo.id));
-    const plainData = data.map(item => ({ ...item }));  // Ensure plain JSON
+    const plainData = data.map(item => ({ ...item })); 
     return NextResponse.json(plainData, { status: 200 });
   } catch (error) {
     console.error(error);

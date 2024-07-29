@@ -22,8 +22,8 @@ export default function RootLayout({
       <body className={inter.className}>
       <SessionProvider>
           <QueryProviders>
-          <ThemeProvider> 
-            {children}
+            <ThemeProvider> 
+              {children}
             </ThemeProvider>
           </QueryProviders>
         </SessionProvider>
