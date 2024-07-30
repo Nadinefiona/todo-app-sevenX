@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache';
 export async function GET(request: NextRequest) {
   try {
     const data = await db.select().from(todo).orderBy(asc(todo.id));
-    revalidatePath('/todos', 'page');
+    // revalidatePath('/todos', 'page');
     const plainData = data.map(item => ({ ...item }));
     return NextResponse.json(plainData, { status: 200 });
   } catch (error) {

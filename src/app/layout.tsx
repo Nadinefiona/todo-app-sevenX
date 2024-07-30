@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { SessionProvider } from '@/utils/sessionProvider';
 import QueryProviders from '@/utils/QueryClientProvider';
-import { ThemeProvider } from 'next-themes';
+import { ThemeProvider } from '@/utils/themeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,7 +22,14 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <QueryProviders>
-            <ThemeProvider>{children}</ThemeProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+            </ThemeProvider>
           </QueryProviders>
         </SessionProvider>
       </body>
