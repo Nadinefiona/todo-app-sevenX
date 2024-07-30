@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
+import { ModeToggle } from './ThemeToggle';
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -9,9 +10,11 @@ export default function Navbar() {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   return (
-    <nav className="flex justify-between p-4 bg-black text-white">
+    <nav className="flex justify-between p-4 dark:bg-black text-white">
       <div className="relative flex items-center"></div>
-      <div className="relative">
+
+      <div className="relative flex space-x-2">
+        <ModeToggle />
         <Image
           src={session?.user?.image || ''}
           alt="User Image"

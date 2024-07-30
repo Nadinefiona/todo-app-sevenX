@@ -17,7 +17,7 @@ const Todos: FC = () => {
   return (
     <>
       <NavBar />
-      <main className="min-h-screen flex justify-center bg-black text-white">
+      <main className="min-h-screen flex justify-center bg-white dark:bg-black dark:text-white text-black">
         <div className="w-full max-w-2xl p-8">
           <h1 className="text-5xl mb-12 text-center font-bold p-5 font-mono">
             ToDo App

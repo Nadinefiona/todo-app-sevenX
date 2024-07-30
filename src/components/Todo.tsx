@@ -21,7 +21,7 @@ const Todo: FC<Props> = ({ todo }) => {
   } = TodoHooks(todo);
 
   return (
-    <div className="flex items-center gap-1 p-4 border-gray-200 border-solid border rounded-lg bg-black text-white mb-2">
+    <div className="flex items-center gap-1 p-4 border-black dark:border-gray-200 border-solid border rounded-lg dark:bg-black bg-white dark:text-white text-black mb-2">
       <input
         type="checkbox"
         className="text-blue-200 rounded-sm h-4 w-4"
@@ -33,7 +33,7 @@ const Todo: FC<Props> = ({ todo }) => {
         value={text}
         onChange={handleTextChange}
         readOnly={!editing}
-        className={`outline-none flex-1 px-4 py-2 rounded-l border-white bg-black text-white ${
+        className={`outline-none flex-1 px-4 py-2 rounded-l dark:border-white border:black dark:bg-black bg-white dark:text-white text:black ${
           todo.done ? 'line-through' : ''
         }`}
       />
