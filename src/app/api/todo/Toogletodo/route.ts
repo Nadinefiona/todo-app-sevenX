@@ -12,10 +12,19 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ message: 'Invalid ID' }, { status: 400 });
     }
 
-    await db.update(todo).set({ done: not(todo.done) }).where(eq(todo.id, id));
-    return NextResponse.json({ message: 'Todo toggled successfully' }, { status: 200 });
+    await db
+      .update(todo)
+      .set({ done: not(todo.done) })
+      .where(eq(todo.id, id));
+    return NextResponse.json(
+      { message: 'Todo toggled successfully' },
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: 'Error toggling todo' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Error toggling todo' },
+      { status: 500 }
+    );
   }
 }

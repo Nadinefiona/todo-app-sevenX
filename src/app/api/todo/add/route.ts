@@ -8,7 +8,10 @@ export async function POST(request: NextRequest) {
     const { text } = await request.json();
     await db.insert(todo).values({ text });
     revalidatePath('/todos', 'page');
-    return NextResponse.json({ message: 'Todo added successfully' }, { status: 201 });
+    return NextResponse.json(
+      { message: 'Todo added successfully' },
+      { status: 201 }
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Error adding todo' }, { status: 500 });

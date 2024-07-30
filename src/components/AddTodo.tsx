@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import AddTodoHooks from "@/hooks/AddTodoHook";
-import { FC } from "react";
+import AddTodoHooks from '@/hooks/AddTodoHook';
+import { FC } from 'react';
 
 const AddTodo: FC = () => {
-  const { input, handleInput, handleAdd} = AddTodoHooks();
+  const { input, handleInput, handleAdd } = AddTodoHooks();
 
   return (
     <div className="w-full flex gap-1 mt-2">

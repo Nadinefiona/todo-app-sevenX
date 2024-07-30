@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
+import Image from 'next/image';
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -11,10 +12,12 @@ export default function Navbar() {
     <nav className="flex justify-between p-4 bg-black text-white">
       <div className="relative flex items-center"></div>
       <div className="relative">
-        <img
+        <Image
           src={session?.user?.image || ''}
           alt="User Image"
-          className="w-10 h-10 rounded-full cursor-pointer"
+          width={50}
+          height={50}
+          className="rounded-full cursor-pointer"
           onClick={toggleDropdown}
           aria-expanded={dropdownOpen}
         />
@@ -22,7 +25,9 @@ export default function Navbar() {
           <div className="absolute top-12 right-0 bg-white text-black rounded-md shadow-lg p-4">
             <div className="flex flex-col items-start">
               <div className="font-semibold pb-3">{session?.user?.name}</div>
-              <div className="text-sm text-gray-600">{session?.user?.email}</div>
+              <div className="text-sm text-gray-600">
+                {session?.user?.email}
+              </div>
             </div>
             <button
               onClick={() => signOut()}

@@ -13,9 +13,15 @@ export async function DELETE(request: NextRequest) {
     }
 
     await db.delete(todo).where(eq(todo.id, id));
-    return NextResponse.json({ message: 'Todo deleted successfully' }, { status: 200 });
+    return NextResponse.json(
+      { message: 'Todo deleted successfully' },
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: 'Error deleting todo' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Error deleting todo' },
+      { status: 500 }
+    );
   }
 }

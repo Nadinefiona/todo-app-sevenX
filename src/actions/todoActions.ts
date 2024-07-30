@@ -17,7 +17,13 @@ export const deleteTodo = async (id: number) => {
   await axios.delete(`/api/todo/delete?id=${id}`);
 };
 
-export const toggleTodo = async ({ id, done }: { id: number; done: boolean }) => {
+export const toggleTodo = async ({
+  id,
+  done,
+}: {
+  id: number;
+  done: boolean;
+}) => {
   await axios.put(`/api/todo/Toogletodo?id=${id}`, { done });
 };
 

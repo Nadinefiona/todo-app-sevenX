@@ -1,27 +1,24 @@
-"use client";
-import { FC } from "react";
-import { todoType } from "@/types/todoType";
-import TodoHooks from "@/hooks/TodoHook";
-
+'use client';
+import { FC } from 'react';
+import { todoType } from '@/types/todoType';
+import TodoHooks from '@/hooks/TodoHook';
 
 interface Props {
   todo: todoType;
 }
 
 const Todo: FC<Props> = ({ todo }) => {
-
   const {
     isDone,
-    text, 
+    text,
     editing,
     handleTextChange,
     handleIsDone,
     handleEdit,
     handleSave,
     handleCancel,
-    handleDelete
+    handleDelete,
   } = TodoHooks(todo);
-
 
   return (
     <div className="flex items-center gap-1 p-4 border-gray-200 border-solid border rounded-lg bg-black text-white mb-2">
@@ -37,7 +34,7 @@ const Todo: FC<Props> = ({ todo }) => {
         onChange={handleTextChange}
         readOnly={!editing}
         className={`outline-none flex-1 px-4 py-2 rounded-l border-white bg-black text-white ${
-          todo.done ? "line-through" : ""
+          todo.done ? 'line-through' : ''
         }`}
       />
       <div className="flex gap-1 ml-auto">

@@ -14,9 +14,15 @@ export async function PUT(request: NextRequest) {
     }
 
     await db.update(todo).set({ text }).where(eq(todo.id, id));
-    return NextResponse.json({ message: 'Todo updated successfully' }, { status: 200 });
+    return NextResponse.json(
+      { message: 'Todo updated successfully' },
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ message: 'Error updating todo' }, { status: 500 });
+    return NextResponse.json(
+      { message: 'Error updating todo' },
+      { status: 500 }
+    );
   }
 }
