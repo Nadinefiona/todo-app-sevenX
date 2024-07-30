@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '../../../../../db/drizzle';
 import { todo } from '../../../../../db/schema';
 import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 export async function PUT(request: NextRequest) {
   try {
@@ -14,6 +15,7 @@ export async function PUT(request: NextRequest) {
     }
 
     await db.update(todo).set({ text }).where(eq(todo.id, id));
+    revalidatePath('/todos', 'page');
     return NextResponse.json(
       { message: 'Todo updated successfully' },
       { status: 200 }

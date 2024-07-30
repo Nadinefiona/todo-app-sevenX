@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '../../../../../db/drizzle';
 import { todo } from '../../../../../db/schema';
 import { eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 export async function DELETE(request: NextRequest) {
   try {
@@ -13,6 +14,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     await db.delete(todo).where(eq(todo.id, id));
+    revalidatePath('/todos', 'page');
     return NextResponse.json(
       { message: 'Todo deleted successfully' },
       { status: 200 }
