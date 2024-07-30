@@ -1,18 +1,14 @@
 "use client";
 import { FC } from "react";
-import { useQuery } from '@tanstack/react-query';
-import { getTodos } from '@/actions/todoActions';
 import Todo from "./Todo";
 import AddTodo from "./AddTodo";
 import NavBar from "./NavBar";
 import { todoType } from "@/types/todoType";
+import TodosHook from '../hooks/TodosHook';
 
 const Todos: FC = () => {
-  const { data: todos, isLoading, error } = useQuery<todoType[], Error>({
-    queryKey: ['todos'],
-    queryFn: getTodos,
-  });
-
+  const { todos, isLoading, error }= TodosHook();
+  
   // if (isLoading) return <div>Loading...</div>;
   if (error) {
     return <div>Error loading todos: {error.message}</div>};

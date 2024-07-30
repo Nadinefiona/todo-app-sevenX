@@ -1,9 +1,11 @@
+"use client";
+
 import { ChangeEvent, FC, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addTodo } from "@/actions/todoActions";
 
 
-export const AddTodoHooks = () => {
+ const AddTodoHooks = () => {
     
     const [input, setInput] = useState("");
     const queryClient = useQueryClient();
@@ -23,12 +25,17 @@ export const AddTodoHooks = () => {
       if (input.trim()) {
         mutation.mutate(input);
         setInput("");
+      }  
     }
 
-    return{
-        input,
-        handleInput,
-        handleAdd
-    }
-}};
+  return{
+    input,
+    handleInput,
+    handleAdd
+  }
+};
+
+export default AddTodoHooks;
+
+
 

@@ -1,3 +1,42 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint: recommeded",
+    "plugin: reatc/recommeded",
+    "plugin:@typescript-eslint/recommeded",
+    "plugin: @next/next/recommended",
+    "airbnb",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "eslint-plugin-import/prefer-default-export": "off",
+    "no-console": "warn",
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars":"warn"
+  },
+  "settings": {
+    "react" : {
+      "version":"detect" 
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
 }

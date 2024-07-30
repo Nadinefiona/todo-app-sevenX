@@ -1,80 +1,27 @@
 "use client";
-import { ChangeEvent, FC, useState } from "react";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FC } from "react";
 import { todoType } from "@/types/todoType";
-import { deleteTodo, toggleTodo, editTodo } from '@/actions/todoActions';
+import TodoHooks from "@/hooks/TodoHook";
+
 
 interface Props {
   todo: todoType;
 }
 
 const Todo: FC<Props> = ({ todo }) => {
-  const [editing, setEditing] = useState(false);
-  const [text, setText] = useState(todo.text);
-  const [isDone, setIsDone] = useState(todo.done);
 
-  const queryClient = useQueryClient();
+  const {
+    isDone,
+    text, 
+    editing,
+    handleTextChange,
+    handleIsDone,
+    handleEdit,
+    handleSave,
+    handleCancel,
+    handleDelete
+  } = TodoHooks(todo);
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteTodo,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
-    },
-  });
-
-  const toggleMutation = useMutation({
-    mutationFn: toggleTodo,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
-    },
-  });
-
-  const editMutation = useMutation({
-    mutationFn: editTodo,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['todos'] });
-    },
-  });
-
-  const handleTextChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
-  };
-
-  const handleIsDone = () => {
-    console.log("Before toggle: ", isDone);
-    toggleMutation.mutate(
-      { id: todo.id, done: !isDone },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['todos'] });
-        },
-        onError: (error) => {
-          console.error("Toggle mutation error: ", error);
-        },
-      }
-    );
-    setIsDone((prev) => !prev);
-  };
-
-  const handleEdit = () => {
-    setEditing(true);
-  };
-
-  const handleSave = () => {
-    if (text.trim()) {
-      editMutation.mutate({ id: todo.id, text });
-      setEditing(false);
-    }
-  };
-
-  const handleCancel = () => {
-    setEditing(false);
-    setText(todo.text);
-  };
-
-  const handleDelete = () => {
-    deleteMutation.mutate(todo.id);
-  };
 
   return (
     <div className="flex items-center gap-1 p-4 border-gray-200 border-solid border rounded-lg bg-black text-white mb-2">

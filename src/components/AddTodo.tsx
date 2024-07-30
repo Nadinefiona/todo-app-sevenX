@@ -1,6 +1,6 @@
 "use client";
 
-import AddTodoHooks from "@/hooks/Hook";
+import AddTodoHooks from "@/hooks/AddTodoHook";
 import { FC } from "react";
 
 const AddTodo: FC = () => {
